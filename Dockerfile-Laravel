@@ -1,0 +1,8 @@
+FROM eboraas/laravel
+
+RUN apt update
+RUN apt install -y php php-zip php-gd php-mbstring php-xml php-pgsql php-sqlite3 php-mysql
+RUN apt install -y vim
+RUN a2dismod php5
+RUN a2enmod php7.0
+CMD bash

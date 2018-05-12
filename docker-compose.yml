@@ -1,0 +1,43 @@
+version: '3'
+
+networks:
+  remiseria:
+    driver: bridge
+
+services:
+  laravel:
+    image: laravel-remiseria
+    build:
+        context: .
+        dockerfile: Dockerfile-Laravel
+    depends_on:
+      - postgres
+      - mysql
+    volumes:
+      # laravel folder.
+      - ./laravel:/var/www/laravel
+    networks:
+      - remiseria
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Remiseria2018
+    ports:
+      - 5432
+    volumes:
+      # Postgres data directory. This ensures the database is not lost.
+      - ./pgdata:/var/lib/postgresql/data
+    networks:
+      - remiseria
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: Remiseria2018
+    ports:
+      - 5432
+    networks:
+      - remiseria
